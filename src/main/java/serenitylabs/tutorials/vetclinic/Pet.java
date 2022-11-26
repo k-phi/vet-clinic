@@ -11,12 +11,20 @@ public class Pet {
     private final Breed breed;
     private final double weightInKilos;
 
-    private List<Meal> mealsGiven = Lists.newArrayList();
+    private final List<Meal> mealsGiven = Lists.newArrayList();
 
     public Pet(String name, Breed breed, double weightInKilos) {
         this.name = name;
         this.breed = breed;
         this.weightInKilos = weightInKilos;
+    }
+
+    public static PetBuilder dog() {
+        return new PetBuilder(Breed.Dog);
+    }
+
+    public static PetBuilder cat() {
+        return new PetBuilder(Breed.Cat);
     }
 
     public String getName() {
@@ -31,14 +39,11 @@ public class Pet {
         return weightInKilos;
     }
 
-    public static PetBuilder dog() { return new PetBuilder(Breed.Dog);}
-    public static PetBuilder cat() { return new PetBuilder(Breed.Cat);}
-
     public boolean isWellFed() {
 
         double totalEaten = 0.0;
 
-        for(Meal meal : mealsGiven) {
+        for (Meal meal : mealsGiven) {
             if ((breed == Breed.Cat) && (meal.getFoodBrand() == PetFood.KittyKat)) {
                 totalEaten = totalEaten + meal.getAmountInGrams();
             } else if ((breed == Breed.Dog) && (meal.getFoodBrand() == PetFood.FidosFood)) {
@@ -55,26 +60,8 @@ public class Pet {
         return (totalEaten >= amountNeeded);
     }
 
-    public void feed(double amountInGrams, PetFood foodBrand) {
-        mealsGiven.add(new Meal(amountInGrams, foodBrand));
-    }
-
-    public static class PetBuilder {
-        private final Breed breed;
-        private double weight;
-
-        public PetBuilder(Breed breed) {
-            this.breed = breed;
-        }
-
-        public PetBuilder weighing(double weight) {
-            this.weight = weight;
-            return this;
-        }
-
-        public Pet named(String name) {
-            return new Pet(name, breed, weight);
-        }
+    public void eat(Meal meal) {
+        mealsGiven.add(meal);
     }
 
     @Override
@@ -93,5 +80,23 @@ public class Pet {
     @Override
     public int hashCode() {
         return Objects.hashCode(name, breed);
+    }
+
+    public static class PetBuilder {
+        private final Breed breed;
+        private double weight;
+
+        public PetBuilder(Breed breed) {
+            this.breed = breed;
+        }
+
+        public PetBuilder weighing(double weight) {
+            this.weight = weight;
+            return this;
+        }
+
+        public Pet named(String name) {
+            return new Pet(name, breed, weight);
+        }
     }
 }
