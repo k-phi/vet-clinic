@@ -42,6 +42,14 @@ public class Appointment {
         return reason;
     }
 
+    public boolean isBefore(LocalDateTime localDateTime) {
+        return getAppointmentTime().isBefore(localDateTime);
+    }
+
+    public boolean isAfter(LocalDateTime localDateTime) {
+        return getAppointmentTime().isAfter(localDateTime);
+    }
+
     public static class AppointmentBooker {
         private final String petName;
         private String owner;
