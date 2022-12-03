@@ -1,20 +1,33 @@
 package serenitylabs.tutorials.vetclinic.playingball.model;
 
-import static serenitylabs.tutorials.vetclinic.playingball.model.Game.*;
-
 public class Child {
 
     public void goPlay(Game game) {
-        if (game == Football) {
-            System.out.print("Kick the ball");
-        } else if (game == Tennis) {
-            System.out.print("Serve the ball");
-        } else if (game == Cricket) {
-            System.out.print("Hit the wicket");
-        } else if (game == Handball) {
-            System.out.print("Throw the ball");
-        } else if (game == Hockey) {
-            System.out.print("Hit the ball with the stick");
+        Player gameToPlay = gameCalled(game);
+        gameToPlay.play();
+    }
+
+    private Player gameCalled(Game game) {
+        Player player;
+        switch (game) {
+            case Football:
+                player = new PlayFootball();
+                break;
+            case Tennis:
+                player = new PlayTennis();
+                break;
+            case Cricket:
+                player = new PlayCricket();
+                break;
+            case Handball:
+                player = new PlayHandball();
+                break;
+            case Hockey:
+                player = new PlayHockey();
+                break;
+            default:
+                throw new UnknownGameException("Unknown game: " + game);
         }
+        return player;
     }
 }
